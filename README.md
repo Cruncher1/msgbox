@@ -19,9 +19,13 @@ msgbox('Hello World', 'My Title', 'YNC', 'C', '!')
 msgbox('Hello World', 'My Title', 'ARI', '', 'X')
 msgbox('Hello World', '', '', '', 'I')
 ```
+### Using the return string:
 ```
-user_response = msgbox('Hello World', 'My Title', 'Yes No Cancel')  # User clicks "Yes"
-print("User response: %s" % user_response)  # prints "User response: Yes"
+user_response = msgbox("Would you like ice cream?", "Ice Cream", "YNC", 'Y', '?')
+msgbox("You clicked: %s" % user_response)
+
+user_response = msgbox("Tornado Warning Today!", "Weather Alert", '', '', '!')
+msgbox("You clicked: %s" % user_response)
 ```
 
 ### Concept
