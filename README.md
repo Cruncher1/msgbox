@@ -19,6 +19,10 @@ msgbox('Hello World', 'My Title', 'YNC', 'C', '!')
 msgbox('Hello World', 'My Title', 'ARI', '', 'X')
 msgbox('Hello World', '', '', '', 'I')
 ```
+```
+user_response = msgbox('Hello World', 'My Title', 'Yes No Cancel')  # User clicks "Yes"
+print("User response: %s" % user_response)  # prints "User response: Yes"
+```
 
 ### Concept
 
@@ -31,6 +35,11 @@ I wanted to create something similar for python. I did some research and found t
 PyQt, ctypes, tkinter and others can do this, but with some complication. @asweigart 
 developed a very nice cross platform pymsgbox module, but the native windows features 
 were limited. 
+
+I wanted to allow the user to name the buttons rather than remember message box types.
+So, the user can choose "Yes No Cancel" or even just "YNC". The same with choosing which button
+is defaulted "Cancel". I wanted the function to return the string of the button name pressed. 
+So, if "Cancel" is pressed, the function returns the string "Cancel". 
 
 I am only working on a windows desktop and am not interested at this time in cross-
 platform functionality. For that, one should use pymsgbox @asweigart.
