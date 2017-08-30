@@ -1,6 +1,5 @@
 # msgbox
-Create simple intuitive functionality for native windows message box functionality.
-Based on ctypes import and inspired both AHK and by pymsgbox whose creator is @asweigart.
+Purpose: to create a simple and memorable function for producing a native windows message box.
 
 ### 1 required field followed by 4 optional fields:
 ```
@@ -38,7 +37,8 @@ as well as providing additional fields to customize the native windows message b
 I wanted to create something similar for python. I did some research and found that 
 PyQt, ctypes, tkinter and others can do this, but with some complication. @asweigart 
 developed a very nice cross platform pymsgbox module, but the native windows features 
-were limited. 
+were limited. What I would like to accomplish is available in ctypes, but requies 
+passing hex code and other non-intuitive arguments. I intend to use ctypes import.
 
 I wanted to allow the user to name the buttons rather than remember message box types.
 So, the user can choose "Yes No Cancel" or even just "YNC". The same with choosing which button
