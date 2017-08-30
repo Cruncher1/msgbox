@@ -51,5 +51,6 @@ platform functionality. For that, one should use pymsgbox @asweigart.
 ### Things to add
 
 * HWND field so that msgbox can have a parent window
-* Timeout feature
+* Optional timeout feature
+* Easy title feature: optionally, starred word's in field 1 used for title: msgbox('You have reached the &ast;end of the game&ast;.')
 
