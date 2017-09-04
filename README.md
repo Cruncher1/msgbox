@@ -3,21 +3,26 @@ Purpose: to create a simple and memorable function for producing a native window
 
 ### 1 required field followed by 4 optional fields:
 ```
-msgbox(Text, Title, Buttons, Default Button, Icon)
+msgbox(message text, [title, buttons, default button, icon])  # Only message text is required. 
 ```
 
-### Usage Examples:
+### Standard Usage Examples:
 
 ```
-msgbox('Hello World')
+msgbox('Hello World')  # Produces Messagebox with single 'OK' button and no title.
 msgbox('Hello World', 'My Title')
-msgbox('Hello World', 'My Title', 'Yes No')
-msgbox('Hello World', 'My Title', 'Yes No Cancel', 'No')
-msgbox('Hello World', 'My Title', 'Ok Cancel', 'Cancel', '?')
-msgbox('Hello World', 'My Title', 'YNC', 'C', '!')
-msgbox('Hello World', 'My Title', 'ARI', '', 'X')
-msgbox('Hello World', '', '', '', 'I')
+msgbox('Hello World', 'My Title', 'Yes No')  # Produces Messagebow with Yes and No buttons. 
+msgbox('Hello World', 'My Title', 'Yes No Cancel', 'No')  # Indicates that 'No' will be the highlighted default button.
+msgbox('Hello World', 'My Title', 'Ok Cancel', 'Cancel', '?')  # Adds '?' icon
+msgbox('Hello World', 'My Title', 'YNC', 'C', '!')  # Instead of typing Yes, No and Cancel, YNC is also acceptable.
 ```
+
+### Lazy Usage Examples:
+All arguments can be placed in the first string so long as comma separated. Why? I get tired of typing all of those quotes. 
+"""
+msgbox('Hello World, My Title, YN, , i')  # Produces Yes No Messagebox with text, title and the I info icon. 
+"""
+
 ### Using the return string:
 ```
 user_response = msgbox("Would you like ice cream?", "Ice Cream", "YNC", 'Y', '?')
@@ -52,5 +57,4 @@ platform functionality. For that, one should use pymsgbox @asweigart.
 
 * HWND field so that msgbox can have a parent window
 * Optional timeout feature
-* Easy title feature: optionally, starred word's in field 1 used for title: msgbox('You have reached the &ast;end of the game&ast;.')
 
