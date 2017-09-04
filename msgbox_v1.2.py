@@ -2,22 +2,57 @@ from ctypes import windll
 
 
 def msgbox(text, title='', buttons='ok', default_button='none', icon='none'):
-    """creates a message box"""
-
-    buttons, icon, default_button = format_args(buttons, icon, default_button)
-    default_button = convert_rc_default_buttons(default_button, buttons)
-    user_response = create_ctypes_messagebox(
-    text, title, buttons, default_button, icon)
+    """
+    creates a message box
+    msgbox(text, [title='', buttons='ok', default_button='none', icon='none'])
+    """
+    if _test_for_ezmsg(text) == True:
+        arg_list = _ezmsg(text)
+        text,title,buttons,default_button,icon = arg_list
+    buttons, icon, default_button = _format_args(buttons, icon, default_button)
+    default_button = _convert_rc_default_buttons(default_button, buttons)
+    user_response = _create_ctypes_messagebox(text, title, buttons, default_button, icon)
 
     # return the user response as a string:
     return user_response  # Example: "Yes"
 
 
-def format_args(a1, a2, a3):
+def _test_for_ezmsg(str):
+    """
+    Tests initial text string for commas, assuming that commas indicate the ez version of entry for the
+    msgbox function permitting all args to be entered as comma separated in a single string.
+    """
+    if ',' in str:
+        _ezmsg(str)
+        result = True
+    else:
+        result = False
+
+    # Returns True to msgbox fxn if comma found in str.
+    return result  # Example: True
+
+
+def _ezmsg(str_complex):
+    """
+    Enables user to enter comma separated values in a single string. Why? Because I don't like having
+    to type quotes over and over. The fxn parses the single string into args, then supplements any
+    missing args with defaults and sends the result through the main funciton msgbox.
+    Expected order of args: text, title, buttons, default_button, icon
+
+    """
+    arg_list = ['Hello', '', 'OC', 'none', 'none']  # default list
+    ez_arg_list = str_complex.split(',')  # split ez string by commas into new list.
+    for counter, arg in enumerate(ez_arg_list):
+        arg_list[counter] = arg
+
+    # returns list of args to msgbox. Used to assign values to vars when _ezmsg() is True.
+    return arg_list  # Example: ['my text','my title','YNC','Y','*']
+
+
+def _format_args(a1, a2, a3):
     """
 	Accepts three args (buttons, icon, default_button) and makes them
 	lowercase and removes whitespace.
-
 	example: converts ' YES NO' to return 'yesno'
 	"""
     a1, a2, a3 = a1.lower(), a2.lower(), a3.lower()
@@ -27,7 +62,7 @@ def format_args(a1, a2, a3):
     return a1, a2, a3  # Example: 'yesnocancel'
 
 
-def convert_rc_default_buttons(default_button, buttons):
+def _convert_rc_default_buttons(default_button, buttons):
     """
 	Most buttons stay in the same places (Yes is always in position one for
 	example), but two can vary. Cancel is always pos 2, except when in
@@ -51,7 +86,7 @@ def convert_rc_default_buttons(default_button, buttons):
     return default_button  # Example: 'r2'
 
 
-def create_ctypes_messagebox(text, title, buttons, default_button, icon):
+def _create_ctypes_messagebox(text, title, buttons, default_button, icon):
     """
     Uses ctypes messagebox function to create and display our msgbox.
     Converts the user_response to string format.
@@ -88,7 +123,13 @@ def create_ctypes_messagebox(text, title, buttons, default_button, icon):
     # string dictionary to convert user_response from int to string for return:
     response = {1: 'OK', 2: 'Cancel', 3: 'Abort', 4: 'Retry',
                 5: 'Ignore', 6: 'Yes', 7: 'No'}
-    
+
+    # Handle incorrect entry of buttons or default_button:
+    # if either the value of buttons or default_button is not allowed, replaces both with 'ok'.
+    if (buttons not in btns)|(default_button not in default):
+        buttons = 'ok'
+        default_button = 'ok'
+
     # create messagebox and assign a value to the users response:
     user_response = windll.user32.MessageBoxW(0, text, title, btns.get(buttons)
                                               | default.get(default_button)
@@ -104,11 +145,25 @@ def create_ctypes_messagebox(text, title, buttons, default_button, icon):
     # return the user response to msgbox() as a string:
     return user_response # Example: "Yes"
 
-"""
-# For Testing
-user_response = msgbox("Would you like ice cream?", "Ice Cream", "YNC", 'Y', '?')
-msgbox("You clicked: %s" % user_response)
 
-user_response = msgbox("Tornado Warning Today!", "Weather Alert", '', '', '!')
-msgbox("You clicked: %s" % user_response)
-"""
+# For Testing
+if __name__ == '__main__':
+    user_response = msgbox("Would you like ice cream?", "TEST MSGBOX", "YNC", 'Y', '?')
+    msgbox("You clicked: {button}".format(button=user_response))
+    user_response = msgbox("Tornado Warning Today!", "Weather Alert", '', '', 'X')
+    msgbox("You clicked: {button}".format(button=user_response))
+
+    # test of _ezmsg function:
+    user_response = msgbox('This msgbox generated by the ezmsg function, TEST _EZMSG, YNC')
+    msgbox("You clicked: {button}".format(button=user_response))
+    user_response = msgbox('This tests _ezmsg for skipping params, _EZMSG evaluation,,,I')
+    msgbox("You clicked: {button}".format(button=user_response))
+
+    # test handling of improper buttons and default_button:
+    user_response = msgbox('User entered buttons as ABC which gets re-evaluated to OK instead.' , 'WRONG BUTTONS MSGBOX' , 'ABC' , 'Y')
+    msgbox("You clicked: {button}".format(button=user_response))
+    user_response = msgbox('User entered buttons as ABC which gets re-evaluated to OK instead., WRONG BUTTONS EZMSG, ABC, Y')
+    msgbox("You clicked: {button}".format(button=user_response))
+
+    msgbox('Goodbye','Testing complete')
+
