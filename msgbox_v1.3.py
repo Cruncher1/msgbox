@@ -1,4 +1,5 @@
 from ctypes import windll
+from re import split
 
 
 def msgbox(text, title='', buttons='ok', default_button='none', icon='none'):
