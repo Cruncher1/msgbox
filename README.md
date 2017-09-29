@@ -26,11 +26,16 @@ msgbox('Hello\, World, My Title')  # Produces OK Messagebox with text "Hello, Wo
 
 ### Buttons:
 The third and fourth arugument are for button options and are optional. If none is indicted, 'OK' will be used. 
-There are six options: 'ok', 'ok cancel', 'abort retry ignore', 'yes no cancel', 'yes no', 'retry cancel'.
-Alternately, initials may be used: 'o', 'oc', 'ari', 'ync', 'yn', 'rc'.
-Case and spacing are ignored. All of these are treated the same: 'Y N C', 'yesnocancel', 'YEsNocanCEL', 'YES NO CANCEL'
+
+There are six options: 
+
+* 'ok', 'ok cancel', 'abort retry ignore', 'yes no cancel', 'yes no', 'retry cancel'.
+* Alternately, initials may be used: 'o', 'oc', 'ari', 'ync', 'yn', 'rc'.
+* Case and spacing are ignored. 
+* All of these are treated the same: 'Y N C', 'yesnocancel', 'YEsNocanCEL', 'YES NO CANCEL'
 
 The fourth argment specifies the default button. If none is provided, the first button is the default. 
+
 Examples: 
 
 * msgbox('Hello', 'My Title', 'YN')  # Yes button is default
@@ -39,8 +44,10 @@ Examples:
 
 ### Icons:
 The fifth argument is for the icon and is optional. 
-Allowed: 'x', '?', '!', 'i', '*'.
-Alternately, you may spell out the icon descriptions: 'error', 'stop', 'hand','question', 'questionmark', 'exclamation', 'exclamationpoint', 'info', 'information', 'asterisk'.
+
+* Allowed: 'x', '?', '!', 'i', '*'.
+* Alternately, you may spell out the icon descriptions: 
+* 'error', 'stop', 'hand','question', 'questionmark', 'exclamation', 'exclamationpoint', 'info', 'information', 'asterisk'.
 
 ### Using the return string:
 ```
