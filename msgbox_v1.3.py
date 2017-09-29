@@ -37,13 +37,14 @@ def _ezmsg(str_complex):
     Enables user to enter comma separated values in a single string. Why? Because I don't like having
     to type quotes over and over. The fxn parses the single string into args, then supplements any
     missing args with defaults and sends the result through the main funciton msgbox.
+    Commas in text can be excaped using '\' as in: 'Hello\, World'.
     Expected order of args: text, title, buttons, default_button, icon
-
     """
     arg_list = ['Hello', '', 'OC', 'none', 'none']  # default list
-    ez_arg_list = str_complex.split(',')  # split ez string by commas into new list.
+    ez_arg_list = split(r'(?<!\\),', str_complex)  # split by non-escaped commas.
+
     for counter, arg in enumerate(ez_arg_list):
-        arg_list[counter] = arg
+        arg_list[counter] = arg.replace('\\','')  # removes any escape chars.
 
     # returns list of args to msgbox. Used to assign values to vars when _ezmsg() is True.
     return arg_list  # Example: ['my text','my title','YNC','Y','*']
